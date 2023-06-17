@@ -51,7 +51,7 @@ const game = (() => {
 
     let player1;
     let player2;
-    let turn = true;
+    let turn;
 
     const start = () => {
         reset();
@@ -59,11 +59,13 @@ const game = (() => {
         player1 = playerFactory('icons/x.svg', 'player1')
         //get user input for name
         player2 = playerFactory('icons/o.svg', 'player2');
-
+        turn = true;
     }
 
-    const playTurn = (posx, posy, marking) => {
+    const playTurn = (posx, posy, turn) => {
+        let marking = turn ? 'icons/x.svg' : 'icons/o.svg';
         gameboard.mark(posx, posy, marking);
+        turn = !turn;
     }
 
 

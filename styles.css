@@ -1,0 +1,43 @@
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.board {
+    height: 50vh;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.square {
+    border: 2px solid black;
+}
+
+.a,
+.b,
+.c {
+    border-top: 0;
+}
+
+.a,
+.d,
+.g {
+    border-left: 0;
+}
+
+.c,
+.f,
+.i {
+    border-right: 0;
+}
+
+.g,
+.h,
+.i {
+    border-bottom: 0;
+}

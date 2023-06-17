@@ -88,6 +88,10 @@ boardElement.forEach((square) => {
     })
 });
 
-game.start();
-game.playTurn(0, 0);
-game.playTurn(0, 1);
+const message = document.querySelector('p');
+
+const startButton = document.querySelector('.start');
+startButton.addEventListener('click', () => {
+    message.textContent = 'Game start!'
+    game.start();
+});

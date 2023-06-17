@@ -23,13 +23,12 @@ const gameboard = (() => {
             let marking = board[posx][posy].marking;
             square.firstChild.src = marking;
         });
-
     }
 
     const reset = () => {
         board.forEach((element) => {
             element.forEach((element) => {
-                element = squareFactory();
+                element.marking = 'icons/empty.png';
             });
         });
     }
@@ -42,31 +41,53 @@ const gameboard = (() => {
 })();
 
 const game = (() => {
+    let player1;
+    let player2;
+    let turnPlayer;
+    let playingGame = false;
+
     const reset = () => {
         gameboard.reset();
         gameboard.render();
         player1 = null;
         player2 = null;
+        playingGame = false;
     }
-
-    let player1;
-    let player2;
-    let turn;
 
     const start = () => {
         reset();
+        playingGame = true;
         //get user input for name
         player1 = playerFactory('icons/x.svg', 'player1')
         //get user input for name
         player2 = playerFactory('icons/o.svg', 'player2');
-        turn = true;
+        turnPlayer = player1;
     }
 
-    const playTurn = (posx, posy, turn) => {
-        let marking = turn ? 'icons/x.svg' : 'icons/o.svg';
-        gameboard.mark(posx, posy, marking);
-        turn = !turn;
+    const playTurn = (posx, posy) => {
+        if (playingGame) {
+            gameboard.mark(posx, posy, turnPlayer.marking);
+            if (turnPlayer == player1) {
+                turnPlayer = player2;
+            } else {
+                turnPlayer = player1;
+            }
+        }
+        gameboard.render();
     }
 
-
+    return { reset, start, playTurn };
 })();
+
+boardElement.forEach((square) => {
+    let coordinates = square.classList[2].toString().split('-');
+    let posx = coordinates[0];
+    let posy = coordinates[1];
+    square.addEventListener('click', () => {
+        game.playTurn(posx, posy);
+    })
+});
+
+game.start();
+game.playTurn(0, 0);
+game.playTurn(0, 1);

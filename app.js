@@ -1,6 +1,6 @@
 const squareFactory = () => {
     let filled = false;
-    let marking = '';
+    let marking = 'icons/empty.png';
     return { filled, marking };
 };
 
@@ -8,15 +8,22 @@ const playerFactory = (marking, name) => {
     return { marking, name };
 };
 
+const boardElement = document.querySelectorAll('.square');
+
 const gameboard = (() => {
     let board = [[squareFactory(), squareFactory(), squareFactory()],
     [squareFactory(), squareFactory(), squareFactory()],
     [squareFactory(), squareFactory(), squareFactory()]];
 
     const render = () => {
-        //replace with real function later
-        console.log('rendering');
-        console.table(board);
+        boardElement.forEach(square => {
+            let coordinates = square.classList[2].toString().split('-');
+            let posx = coordinates[0];
+            let posy = coordinates[1];
+            let marking = board[posx][posy].marking;
+            square.firstChild.src = marking;
+        });
+
     }
 
     const reset = () => {
@@ -49,9 +56,9 @@ const game = (() => {
     const start = () => {
         reset();
         //get user input for name
-        player1 = playerFactory('x', 'player1')
+        player1 = playerFactory('icons/x.svg', 'player1')
         //get user input for name
-        player2 = playerFactory('o', 'player2');
+        player2 = playerFactory('icons/o.svg', 'player2');
 
     }
 

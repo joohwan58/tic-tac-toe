@@ -16,6 +16,12 @@ h1 {
 
 .square {
     border: 2px solid black;
+
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .a,

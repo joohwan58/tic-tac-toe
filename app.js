@@ -30,6 +30,7 @@ const gameboard = (() => {
         board.forEach((element) => {
             element.forEach((element) => {
                 element.marking = 'icons/empty.png';
+                element.filled = false;
             });
         });
     }
@@ -85,14 +86,21 @@ const game = (() => {
             }
         }
         gameboard.render();
+        detectVictory();
     }
 
     const detectVictory = () => {
-
+        if (gameboard.board[0][0].marking == gameboard.board[0][1].marking) {
+            if (gameboard.board[0][1].marking == gameboard.board[0][2].marking) {
+                console.log('win');
+            }
+        }
     }
 
     return { reset, start, playTurn, detectVictory };
 })();
+
+console.log(gameboard.board);
 
 boardElement.forEach((square) => {
     let coordinates = square.classList[2].toString().split('-');

@@ -8,6 +8,7 @@ const playerFactory = (marking, name) => {
     return { marking, name };
 };
 
+const message = document.querySelector('.message');
 const boardElement = document.querySelectorAll('.square');
 
 const gameboard = (() => {
@@ -34,8 +35,13 @@ const gameboard = (() => {
     }
 
     const mark = (posx, posy, marking) => {
-        board[posx][posy].filled = true;
-        board[posx][posy].marking = marking;
+        let sucess = false;
+        if (board[posx][posy].filled == false) {
+            sucess = true;
+            board[posx][posy].filled = true;
+            board[posx][posy].marking = marking;
+        }
+        return sucess;
     }
     return { render, reset, mark }
 })();
@@ -55,7 +61,6 @@ const game = (() => {
     }
 
     const start = () => {
-        reset();
         playingGame = true;
         //get user input for name
         player1 = playerFactory('icons/x.svg', 'player1')
@@ -64,19 +69,29 @@ const game = (() => {
         turnPlayer = player1;
     }
 
+    const switchTurn = () => {
+        if (turnPlayer == player1) {
+            turnPlayer = player2;
+        } else {
+            turnPlayer = player1;
+        }
+    }
+
     const playTurn = (posx, posy) => {
         if (playingGame) {
-            gameboard.mark(posx, posy, turnPlayer.marking);
-            if (turnPlayer == player1) {
-                turnPlayer = player2;
-            } else {
-                turnPlayer = player1;
+            let sucess = gameboard.mark(posx, posy, turnPlayer.marking);
+            if (sucess) {
+                switchTurn();
             }
         }
         gameboard.render();
     }
 
-    return { reset, start, playTurn };
+    const detectVictory = () => {
+
+    }
+
+    return { reset, start, playTurn, detectVictory };
 })();
 
 boardElement.forEach((square) => {
@@ -88,10 +103,16 @@ boardElement.forEach((square) => {
     })
 });
 
-const message = document.querySelector('p');
 
 const startButton = document.querySelector('.start');
 startButton.addEventListener('click', () => {
     message.textContent = 'Game start!'
     game.start();
+});
+
+const resetButton = document.querySelector('.reset');
+
+resetButton.addEventListener('click', () => {
+    message.textContent = 'Get ready...';
+    game.reset();
 });

@@ -44,7 +44,7 @@ const gameboard = (() => {
         }
         return sucess;
     }
-    return { render, reset, mark }
+    return { board, render, reset, mark }
 })();
 
 const game = (() => {
@@ -56,18 +56,28 @@ const game = (() => {
     const reset = () => {
         gameboard.reset();
         gameboard.render();
+        message.textContent = 'Get ready...';
         player1 = null;
         player2 = null;
         playingGame = false;
     }
 
     const start = () => {
+        reset();
+        message.textContent = 'Game start!'
         playingGame = true;
         //get user input for name
         player1 = playerFactory('icons/x.svg', 'player1')
         //get user input for name
         player2 = playerFactory('icons/o.svg', 'player2');
         turnPlayer = player1;
+    }
+
+    const finish = (turnPlayer) => {
+        console.log(turnPlayer);
+        message.textContent = `${turnPlayer.name} wins!`;
+        playingGame = false;
+        turnPlayer = null;
     }
 
     const switchTurn = () => {
@@ -81,26 +91,29 @@ const game = (() => {
     const playTurn = (posx, posy) => {
         if (playingGame) {
             let sucess = gameboard.mark(posx, posy, turnPlayer.marking);
+            gameboard.render();
+            let finished = detectVictory();
+            if (finished) {
+                finish();
+                return;
+            }
             if (sucess) {
                 switchTurn();
             }
         }
-        gameboard.render();
-        detectVictory();
     }
 
     const detectVictory = () => {
-        if (gameboard.board[0][0].marking == gameboard.board[0][1].marking) {
-            if (gameboard.board[0][1].marking == gameboard.board[0][2].marking) {
-                console.log('win');
-            }
+        if ((turnPlayer.marking == gameboard.board[0][0].marking) && (turnPlayer.marking == gameboard.board[0][1].marking) && (turnPlayer.marking == gameboard.board[0][2].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[1][0].marking) && (turnPlayer.marking == gameboard.board[1][1].marking) && (turnPlayer.marking == gameboard.board[1][2].marking)) {
+            return true;
         }
     }
 
-    return { reset, start, playTurn, detectVictory };
+    return { reset, start, playTurn };
 })();
-
-console.log(gameboard.board);
 
 boardElement.forEach((square) => {
     let coordinates = square.classList[2].toString().split('-');
@@ -114,13 +127,11 @@ boardElement.forEach((square) => {
 
 const startButton = document.querySelector('.start');
 startButton.addEventListener('click', () => {
-    message.textContent = 'Game start!'
     game.start();
 });
 
 const resetButton = document.querySelector('.reset');
 
 resetButton.addEventListener('click', () => {
-    message.textContent = 'Get ready...';
     game.reset();
 });

@@ -11,6 +11,8 @@ const playerFactory = (marking, name) => {
 const message1 = document.querySelector('.message1');
 const message2 = document.querySelector('.message2');
 const boardElement = document.querySelectorAll('.square');
+const player1Form = document.querySelector('#player1');
+const player2Form = document.querySelector('#player2');
 
 const gameboard = (() => {
     let board = [[squareFactory(), squareFactory(), squareFactory()],
@@ -78,12 +80,12 @@ const game = (() => {
 
     const start = () => {
         reset();
-        message1.textContent = 'Game started'
+        message1.textContent = 'Game started';
         playingGame = true;
-        //get user input for name
-        player1 = playerFactory('icons/x.svg', 'player 1');
-        //get user input for name
-        player2 = playerFactory('icons/o.svg', 'player 2');
+        let player1Name = (player1Form.value == "") ? 'Player 1' : player1Form.value;
+        player1 = playerFactory('icons/x.svg', player1Name);
+        let player2Name = (player2Form.value == "") ? 'Player 2' : player2Form.value;
+        player2 = playerFactory('icons/o.svg', player2Name);
         turnPlayer = getPlayer1();
         message2.textContent = `${getTurnPlayer().name}'s turn`;
     }
@@ -92,6 +94,8 @@ const game = (() => {
         message1.textContent = `${turnPlayer.name} wins!`;
         playingGame = false;
         turnPlayer = null;
+        player1Form.value = '';
+        player2Form.value = '';
     }
 
     const switchTurn = () => {

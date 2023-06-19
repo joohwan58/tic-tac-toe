@@ -13,8 +13,20 @@
 <body>
     <div class="wrapper">
         <h1>Tic-Tac-Toe!</h1>
-        <button class="start" type="button">Start</button>
-        <button class="reset" type="button">Reset</button>
+        <div class="name-form">
+            <div class="player1">
+                <img class="player-icon" src="icons/x.svg" alt="x">
+                <input type="text" name="player1" id="player1" placeholder="Player 1's name">
+            </div>
+            <div class="player2">
+                <img class="player-icon" src="icons/o.svg" alt="player2">
+                <input type="text" name="player2" id="player2" placeholder="Player 2's name">
+            </div>
+        </div>
+        <div>
+            <button class="start" type="button">Start</button>
+            <button class="reset" type="button">Reset</button>
+        </div>
         <p class="message1">Get ready...</p>
         <p class="message2">Press start button to start game</p>
         <div class="board">

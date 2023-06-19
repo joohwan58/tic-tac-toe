@@ -8,7 +8,8 @@ const playerFactory = (marking, name) => {
     return { marking, name };
 };
 
-const message = document.querySelector('.message');
+const message1 = document.querySelector('.message1');
+const message2 = document.querySelector('.message2');
 const boardElement = document.querySelectorAll('.square');
 
 const gameboard = (() => {
@@ -48,15 +49,28 @@ const gameboard = (() => {
 })();
 
 const game = (() => {
-    let player1 = playerFactory('test', 'test1');
+    let player1;
     let player2;
     let turnPlayer;
     let playingGame = false;
 
+    const getPlayer1 = () => {
+        return player1;
+    }
+
+    const getPlayer2 = () => {
+        return player2;
+    }
+
+    const getTurnPlayer = () => {
+        return turnPlayer;
+    }
+
     const reset = () => {
         gameboard.reset();
         gameboard.render();
-        message.textContent = 'Get ready...';
+        message1.textContent = 'Get ready...';
+        message2.textContent = 'Press start button to start game'
         player1 = null;
         player2 = null;
         playingGame = false;
@@ -64,34 +78,34 @@ const game = (() => {
 
     const start = () => {
         reset();
-        message.textContent = 'Game started'
+        message1.textContent = 'Game started'
         playingGame = true;
         //get user input for name
         player1 = playerFactory('icons/x.svg', 'player 1');
         //get user input for name
         player2 = playerFactory('icons/o.svg', 'player 2');
-        turnPlayer = player1;
+        turnPlayer = getPlayer1();
+        message2.textContent = `${getTurnPlayer().name}'s turn`;
     }
 
-    const finish = (turnPlayer) => {
-        console.log(turnPlayer);
-        console.log('win');
-        message.textContent = `${turnPlayer.name} wins!`;
+    const finish = () => {
+        message1.textContent = `${turnPlayer.name} wins!`;
         playingGame = false;
         turnPlayer = null;
     }
 
     const switchTurn = () => {
-        if (turnPlayer == player1) {
-            turnPlayer = player2;
+        if (getTurnPlayer() == getPlayer1()) {
+            turnPlayer = getPlayer2();
         } else {
-            turnPlayer = player1;
+            turnPlayer = getPlayer1();
         }
+        message2.textContent = `${getTurnPlayer().name}'s turn`;
     }
 
     const playTurn = (posx, posy) => {
         if (playingGame) {
-            let sucess = gameboard.mark(posx, posy, turnPlayer.marking);
+            let sucess = gameboard.mark(posx, posy, getTurnPlayer().marking);
             gameboard.render();
             let finished = detectVictory();
             if (finished) {

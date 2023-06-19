@@ -8,9 +8,6 @@ const playerFactory = (marking, name) => {
     return { marking, name };
 };
 
-let test = playerFactory('test', 'test1');
-console.log(test);
-
 const message = document.querySelector('.message');
 const boardElement = document.querySelectorAll('.square');
 
@@ -51,7 +48,7 @@ const gameboard = (() => {
 })();
 
 const game = (() => {
-    let player1;
+    let player1 = playerFactory('test', 'test1');
     let player2;
     let turnPlayer;
     let playingGame = false;
@@ -70,9 +67,9 @@ const game = (() => {
         message.textContent = 'Game started'
         playingGame = true;
         //get user input for name
-        player1 = playerFactory('icons/x.svg', 'player1')
+        player1 = playerFactory('icons/x.svg', 'player 1');
         //get user input for name
-        player2 = playerFactory('icons/o.svg', 'player2');
+        player2 = playerFactory('icons/o.svg', 'player 2');
         turnPlayer = player1;
     }
 

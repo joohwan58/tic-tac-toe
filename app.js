@@ -8,6 +8,9 @@ const playerFactory = (marking, name) => {
     return { marking, name };
 };
 
+let test = playerFactory('test', 'test1');
+console.log(test);
+
 const message = document.querySelector('.message');
 const boardElement = document.querySelectorAll('.square');
 
@@ -64,7 +67,7 @@ const game = (() => {
 
     const start = () => {
         reset();
-        message.textContent = 'Game start!'
+        message.textContent = 'Game started'
         playingGame = true;
         //get user input for name
         player1 = playerFactory('icons/x.svg', 'player1')
@@ -75,6 +78,7 @@ const game = (() => {
 
     const finish = (turnPlayer) => {
         console.log(turnPlayer);
+        console.log('win');
         message.textContent = `${turnPlayer.name} wins!`;
         playingGame = false;
         turnPlayer = null;
@@ -108,6 +112,24 @@ const game = (() => {
             return true;
         }
         if ((turnPlayer.marking == gameboard.board[1][0].marking) && (turnPlayer.marking == gameboard.board[1][1].marking) && (turnPlayer.marking == gameboard.board[1][2].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[2][0].marking) && (turnPlayer.marking == gameboard.board[2][1].marking) && (turnPlayer.marking == gameboard.board[2][2].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[0][0].marking) && (turnPlayer.marking == gameboard.board[1][0].marking) && (turnPlayer.marking == gameboard.board[2][0].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[0][1].marking) && (turnPlayer.marking == gameboard.board[1][1].marking) && (turnPlayer.marking == gameboard.board[2][1].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[0][2].marking) && (turnPlayer.marking == gameboard.board[1][2].marking) && (turnPlayer.marking == gameboard.board[2][2].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[0][0].marking) && (turnPlayer.marking == gameboard.board[1][1].marking) && (turnPlayer.marking == gameboard.board[2][2].marking)) {
+            return true;
+        }
+        if ((turnPlayer.marking == gameboard.board[0][2].marking) && (turnPlayer.marking == gameboard.board[1][1].marking) && (turnPlayer.marking == gameboard.board[2][0].marking)) {
             return true;
         }
     }

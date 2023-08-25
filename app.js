@@ -56,9 +56,9 @@ const game = (() => {
     let turnPlayer;
     let playingGame = false;
 
-    // const getPlayer1 = () => {
-    //     return player1;
-    // }
+    const getPlayer1 = () => {
+        return player1;
+    }
 
     const getPlayer2 = () => {
         return player2;
